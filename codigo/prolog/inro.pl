@@ -3,7 +3,7 @@ persona(julia).
 persona(miguel).
 persona(ana).
 persona(juana).
-persona(pepe).
+mersona(pepe).
 
 argentino(carlos).
 argentino(ernesto).
