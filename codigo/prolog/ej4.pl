@@ -27,8 +27,6 @@ cifras([1,2,3,4,5,6,7,8,9,0]).
 pertenece(X,[X|_]).
 pertenece(X,[_|Resto]) :- pertenece(X,Resto).
 
-longitud([],0).
-longitud([_|Resto],Longitud) :- longitud(Resto,Aux), Longitud is Aux + 1.
 
 /* Probemos con la alternativa de arriba*/
 resultado(A1,A2,A3,B1,B3,C1,C2,C3):-
@@ -56,5 +54,4 @@ resultado(A1,A2,A3,B1,B3,C1,C2,C3):-
     1 is (A2 + 5) / C2,
     7 is (A3 + B3) - C3.
 
-agregar(X,L,[X|L]).
 
