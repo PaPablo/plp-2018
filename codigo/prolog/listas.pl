@@ -18,3 +18,8 @@ pos(I,[_|Resto],Pos) :- pos(I, Resto, Aux), Aux is Pos-1.
 
 /* agregar en posicion determinada */
 
+insertar(E,L,1,[E|L]).
+insertar(E,[X|Resto],P,[X|NL] ) :- 
+    Aux is P-1, 
+    insertar(E,Resto,Aux,NL).
+
