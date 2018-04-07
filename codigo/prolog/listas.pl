@@ -23,3 +23,6 @@ insertar(E,[X|Resto],P,[X|NL] ) :-
     Aux is P-1, 
     insertar(E,Resto,Aux,NL).
 
+
+concatenar([],L,L).
+concatenar([X|Resto],L,[X|NL]) :- concatenar(Resto, L, NL).
