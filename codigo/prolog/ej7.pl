@@ -17,12 +17,25 @@ pertenece(X,[_|Resto]) :- pertenece(X,Resto).
 billete([1,2,5,10,20,50,100,200,500,1000]).
 
 masCercano(_,[X],X) :- !.
-masCercano(E,[Primero|Resto],X) :- Mejor is Primero, masMejor(E,[Mejor,Primero|Resto],X).
+masCercano(E,[Primero|Resto],X) :- 
+    Mejor is Primero, 
+    masMejor(E,[Mejor,Primero|Resto],X).
 
-masMejor(E,[_,Primero|Resto],X) :- E >= Primero, masMejor(E,[Primero|Resto],X).
-masMejor(E,[Mejor,Primero|_],Mejor) :- E < Primero.
+masMejor(E,[_,Primero|Resto],X) :- 
+    E >= Primero, 
+    masMejor(E,[Primero|Resto],X).
+
+masMejor(E,[Mejor,Primero|_],Mejor) :- 
+    E < Primero.
 
 vuelto(0, []).
-vuelto(Vuelto, [Cercano|NL]) :- billete(B),masCercano(Vuelto,B,Cercano),Aux is Vuelto-Cercano, vuelto(Aux, NL).
+vuelto(Vuelto, [Cercano|NL]) :- 
+    billete(B),
+    masCercano(Vuelto,B,Cercano),
+    Aux is Vuelto-Cercano, 
+    Aux >=0,
+    vuelto(Aux, NL).
 
-mejorVuelto(Abonado,Monto,Billetes) :- Vuelto is Abonado - Monto, vuelto(Vuelto,Billetes).
+mejorVuelto(Abonado,Monto,Billetes) :- 
+    Vuelto is Abonado - Monto, 
+    vuelto(Vuelto,Billetes).
