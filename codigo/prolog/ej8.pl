@@ -11,40 +11,43 @@
 %      acredPosibles(ImportesDeCheques,MontoAcred,ImportesPosibles).
 
 
-removed(_,[],[]).
-removed(X,[X|Resto],Resto).
-removed(X, [Primero|Resto], [Primero|NL]) :- X \= Primero, removed(X, Resto, NL).
-
 pertenece(X,[X|_]).
 pertenece(X,[_|Resto]) :- pertenece(X,Resto).
 
-incluido([],[]).
 incluido([],_).
-incluido([Pa|RestoA],[Pb|RestoB]) :- 
-    pertenece(Pa,[Pb|RestoB]), 
-    removed(Pa, [Pb|RestoB], MenosA), 
-    incluido(RestoA,MenosA).
+incluido([Pa|RestoA],[Pa|RestoB]) :-
+    incluido(RestoA, RestoB).
+
+incluido([Pa|RestoA],[_|RestoB]) :-
+    incluido([Pa|RestoA],RestoB).
+
 
 sumatoria([],0).
 sumatoria([X|Resto], Suma):- sumatoria(Resto, Aux), Suma is Aux+X.
 
 /* Sin identificar */
 acredPosibles(ImportesDeCheques,MontoAcred,ImportesPosibles):-
-    incluido(ImportesPosibles,ImportesDeCheques), sumatoria(ImportesPosibles,MontoAcred).
-
-% Give id to each
-identificar(L,Identificada) :- identif(L, 1,Identificada).
-
-removeId([],[]).
-removeId([[Id,Valor]|Resto],[Valor|NL]) :- removeId(Resto,NL).
-
-identif([X],Largo,[[Largo,X]]).
-identif([Primero|Resto],Cuenta,[[Cuenta,Primero]|NL]) :- Cuenta2 is Cuenta+1, identif(Resto, Cuenta2,NL).
-
-sumatoriaID(Lista, Suma):- removeId(Lista, ListaSinIds), sumatoria(ListaSinIds, Suma).
+    incluido(ImportesPosibles,ImportesDeCheques),
+    sumatoria(ImportesPosibles,MontoAcred).
 
 
-%identificado
-acredPosiblesID(ImportesDeCheques,MontoAcred,ImportesPosiblesID):-
-    identificar(ImportesDeCheques, ImportesChequesID), incluido(ImportesPosiblesID,ImportesDeChequesID), sumatoriaID(ImportesPosiblesID,MontoAcred).
+% With IDs
+%
 
+% incluido IDs
+incluidoID([],_).
+incluidoID([cheque(ID, Monto)|RestoA], [cheque(ID, Monto)|RestoB]):-
+    incluidoID(RestoA,RestoB).
+
+incluidoID([cheque(ID, Monto)|RestoA], [_|RestoB]):-
+    incluidoID([cheque(ID, Monto)|RestoA], RestoB).
+
+% Sumatoria IDs
+sumatoriaID([],0).
+sumatoriaID([cheque(_,Monto)|Resto], Suma):- 
+    sumatoriaID(Resto, Aux), 
+    Suma is Aux+Monto.
+
+acredPosiblesID(ImportesDeCheques,MontoAcred,ImportesPosibles):-
+    incluidoID(ImportesPosibles,ImportesDeCheques),
+    sumatoriaID(ImportesPosibles,MontoAcred).
