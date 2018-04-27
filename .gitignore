@@ -1,5 +1,9 @@
 # Created by https://www.gitignore.io/api/vim,haskell,smalltalk
 
+### Custom ###
+
+teoria/*
+libros/*
 ### Haskell ###
 dist
 dist-*
@@ -56,3 +60,4 @@ tags
 
 
 # End of https://www.gitignore.io/api/vim,haskell,smalltalk
+
