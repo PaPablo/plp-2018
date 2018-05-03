@@ -67,12 +67,14 @@ halvesPlay(Hand,Croupier,Cards) :-
     halvesTotal(Croupier, HCards),
     halvesTotal(Cards, HCroupier),
     HTotal is HCards + HCroupier,
-    halvesDecide(Value,HTotal).
+    halvesDecide(Value,HCroupier,HCards).
 
-halvesDecide(Value,Htotal) :-
+halvesDecide(Value,HCroupier,HCards):-
     Value =< 11,
-    HTotal < 0.
-
-halvesDecide(Value,Htotal) :-
-    Value > 11,
+    HTotal is HCroupier + HCards,
     HTotal > 0.
+
+halvesDecide(Value,HCroupier,HCards):-
+    Value > 11,
+    HTotal is HCroupier + HCards,
+    HTotal < 0.
