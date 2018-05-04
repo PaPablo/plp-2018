@@ -62,11 +62,13 @@ blackjack(Hand):-
 
 /* play */
 
+
+play(Hand,Croupier,Cards) :- halvesPlay(Hand,Croupier, Cards).
+
 halvesPlay(Hand,Croupier,Cards) :- 
     hand(Hand, Value), 
     halvesTotal(Croupier, HCards),
     halvesTotal(Cards, HCroupier),
-    HTotal is HCards + HCroupier,
     halvesDecide(Value,HCroupier,HCards).
 
 halvesDecide(Value,HCroupier,HCards):-
